@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 clear
-loadkeys la-latin1
+loadkeys es
 #----------------------------------------
 #          Setting some vars
 #----------------------------------------
@@ -228,14 +228,14 @@ function generating_fstab() {
 function set_timezone_lang_keyboard() {
 	logo "Configurando Timezone y Locales"
 		
-	$CHROOT ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
+	$CHROOT ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 	$CHROOT hwclock --systohc
 	echo
-	echo "es_MX.UTF-8 UTF-8" >> /mnt/etc/locale.gen
+	echo "es_ES.UTF-8 UTF-8" >> /mnt/etc/locale.gen
 	$CHROOT locale-gen
-	echo "LANG=es_MX.UTF-8" >> /mnt/etc/locale.conf
-	echo "KEYMAP=la-latin1" >> /mnt/etc/vconsole.conf
-	export LANG=es_MX.UTF-8
+	echo "LANG=es_ES.UTF-8" >> /mnt/etc/locale.conf
+	echo "KEYMAP=es" >> /mnt/etc/vconsole.conf
+	export LANG=es_ES.UTF-8
 	okie
 	clear
 }
