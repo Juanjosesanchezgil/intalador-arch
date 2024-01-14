@@ -27,3 +27,8 @@ function fstab(){
     clear
 
 }
+
+#---------- Ejecutar funciones ----------
+
+base
+fstab
