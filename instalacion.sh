@@ -93,7 +93,6 @@ else
 fi
 
 
-arch-chroot /mnt ./instalacion2.sh
 
 umount -l /mnt
 
