@@ -117,7 +117,7 @@ function set_timezone_lang_keyboard() {
 }
 
 #---------- Ejecutar funciones ----------
-
+get_necessary_info
 base
 fstab
 set_timezone_lang_keyboard
