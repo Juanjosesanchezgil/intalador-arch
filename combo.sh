@@ -227,6 +227,35 @@ function set_timezone_lang_keyboard() {
 	clear
 }
 
+#---------- Hostname & Hosts ----------
+function set_hostname_hosts() {
+	logo "Configurando Internet"
+
+	echo "${HNAME}" >> /mnt/etc/hostname
+	cat >> /mnt/etc/hosts <<- EOL		
+		127.0.0.1   localhost
+		::1         localhost
+		127.0.1.1   ${HNAME}.localdomain ${HNAME}
+	EOL
+	ok
+	clear
+}
+
+#---------- Users & Passwords ----------
+function create_user_and_password() {
+	logo "Usuario Y Passwords"
+
+	echo "root:$PASSWDR" | $CHROOT chpasswd
+	$CHROOT useradd -m -g users -G wheel -s /usr/bin/zsh "${USR}"
+	echo "$USR:$PASSWD" | $CHROOT chpasswd
+	sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/; /^root ALL=(ALL:ALL) ALL/a '"${USR}"' ALL=(ALL:ALL) ALL' /mnt/etc/sudoers
+	echo "Defaults insults" >> /mnt/etc/sudoers
+	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${BLUE}" "${WHITE}" "${RED}" "${PASSWDR}" "${WHITE}" "${YELLOW}" "${USR}" "${WHITE}" "${RED}" "${PASSWD}" "${WHITE}"
+	ok
+	sleep 3
+	clear
+}
+
 #---------- Ejecutar funciones ----------
 get_necessary_info
 particion
@@ -234,3 +263,5 @@ base
 fstab
 install_grub
 set_timezone_lang_keyboard
+set_hostname_hosts
+create_user_and_password
