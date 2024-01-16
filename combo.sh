@@ -194,6 +194,21 @@ function fstab(){
 
 }
 
+#-------- Grub
+function install_grub() {
+	logo "Instalando GRUB"
+
+	$CHROOT pacman -S grub os-prober ntfs-3g --noconfirm >/dev/null
+	$CHROOT grub-install --target=i386-pc "$drive"
+	
+	sed -i 's/quiet/zswap.enabled=0 mitigations=off nowatchdog/; s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /mnt/etc/default/grub
+	sed -i "s/MODULES=()/MODULES=(intel_agp i915 zram)/" /mnt/etc/mkinitcpio.conf
+	echo
+	$CHROOT grub-mkconfig -o /boot/grub/grub.cfg
+	ok
+	clear  
+}
+
 #--------- Idioma
 
 function set_timezone_lang_keyboard() {
@@ -217,4 +232,5 @@ get_necessary_info
 particion
 base
 fstab
+install_grub
 set_timezone_lang_keyboard
