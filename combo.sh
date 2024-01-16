@@ -199,7 +199,7 @@ function install_grub() {
 	logo "Instalando GRUB"
 
 	$CHROOT pacman -S grub os-prober ntfs-3g --noconfirm >/dev/null
-	$CHROOT grub-install --target=i386-pc "$drive"
+	$CHROOT grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
 	
 	sed -i 's/quiet/zswap.enabled=0 mitigations=off nowatchdog/; s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /mnt/etc/default/grub
 	sed -i "s/MODULES=()/MODULES=(intel_agp i915 zram)/" /mnt/etc/mkinitcpio.conf
