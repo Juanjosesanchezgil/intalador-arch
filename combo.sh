@@ -198,7 +198,7 @@ function fstab(){
 function install_grub() {
 	logo "Instalando GRUB"
 
-	$CHROOT pacman -S grub os-prober ntfs-3g --noconfirm >/dev/null
+	$CHROOT pacman -S grub efibootmgr os-prober ntfs-3g --noconfirm >/dev/null
 	$CHROOT grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
 	
 	sed -i 's/quiet/zswap.enabled=0 mitigations=off nowatchdog/; s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /mnt/etc/default/grub
