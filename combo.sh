@@ -180,7 +180,8 @@ function particion(){
 function base(){
     pacstrap /mnt \
             base base-devel \
-            linux linux-firmware 
+            linux linux-firmware \
+            git
 
     ok
     clear
@@ -254,6 +255,11 @@ function create_user_and_password() {
 	ok
 	sleep 3
 	clear
+}
+
+function install_yay (){
+
+    echo "cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd" | $CHROOT su "$USR"
 }
 
 #---------- Ejecutar funciones ----------
