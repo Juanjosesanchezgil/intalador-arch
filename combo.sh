@@ -30,6 +30,13 @@ logo() {
 	printf ' %s%s[%s %s %s]%s\n\n' "$BOLD" "$RED" "$YELLOW" "${text}" "$RED" "$WHITE"
 }
 
+function evitar_error_pgpkey () {
+    umount /etc/pacman.d/gnupg
+    rm -rf /etc/pacman.d/gnupg
+    pacman-key --init
+    pacman-key --populate
+}
+
 function get_necessary_info() {
 	logo "Ingresa la informacion Necesaria"
 
@@ -182,7 +189,7 @@ function base(){
     pacstrap /mnt \
             base base-devel \
             linux linux-firmware \
-            git
+            git zsh
 
     ok
     clear
@@ -248,8 +255,8 @@ function create_user_and_password() {
 	logo "Usuario Y Passwords"
 
 	echo "root:$PASSWDR" | $CHROOT chpasswd
-	$CHROOT useradd -m -g users -G wheel -s /usr/bin/zsh "${USR}"
 	echo "$USR:$PASSWD" | $CHROOT chpasswd
+	$CHROOT useradd -m -g users -G wheel -s /usr/bin/zsh "${USR}"
 	sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/; /^root ALL=(ALL:ALL) ALL/a '"${USR}"' ALL=(ALL:ALL) ALL' /mnt/etc/sudoers
 	echo "Defaults insults" >> /mnt/etc/sudoers
 	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${BLUE}" "${WHITE}" "${RED}" "${PASSWDR}" "${WHITE}" "${YELLOW}" "${USR}" "${WHITE}" "${RED}" "${PASSWD}" "${WHITE}"
