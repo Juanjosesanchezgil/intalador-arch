@@ -273,6 +273,7 @@ function install_yay (){
 #---------- Ejecutar funciones ----------
 get_necessary_info
 particion
+evitar_error_pgpkey
 base
 fstab
 install_grub
