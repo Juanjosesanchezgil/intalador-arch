@@ -178,6 +178,7 @@ function particion(){
 
 #---------- Sistema base ----------
 function base(){
+    sed -i 's/#Color/Color/; s/#ParallelDownloads = 5/ParallelDownloads = 5/; /^ParallelDownloads =/a ILoveCandy' /etc/pacman.conf
     pacstrap /mnt \
             base base-devel \
             linux linux-firmware \
