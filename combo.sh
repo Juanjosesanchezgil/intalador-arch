@@ -282,6 +282,11 @@ function install_lightdm() {
                         lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm
 }
 
+function install_wm(){
+    logo "Intalando WM"
+    $CHROOT pacman -S i3-wm --noconfirm
+}
+
 function activar_servicios() {
     logo "Activando Servicios"
 
