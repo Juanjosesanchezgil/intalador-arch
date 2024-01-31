@@ -303,4 +303,6 @@ set_hostname_hosts
 create_user_and_password
 install_grub
 conf_keyboard
+install_lightdm
+activar_servicios
 install_yay
