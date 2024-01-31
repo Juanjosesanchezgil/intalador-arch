@@ -276,7 +276,17 @@ EOL
 	printf "%s00-keyboard.conf%s generated in --> /etc/X11/xorg.conf.d\n" "${GREEN}" "${WHITE}"
 }
 
+function install_lightdm() {
+    logo "Instalando LightDM"
+    $CHROOT pacman -S \
+                        lightdm lightdm-gtk-greeter lightdm-gtk-greeter-seetings --noconfirm
+}
 
+function activar_servicios() {
+    logo "Activando Servicios"
+
+	$CHROOT systemctl enable lightdm.service
+}
 
 function install_yay (){
 
