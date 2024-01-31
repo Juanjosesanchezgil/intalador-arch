@@ -315,9 +315,7 @@ function install_yay (){
 function install_aur_app(){
     logo "Instalado apps aur"
 
-    $CHROOT yay -S \
-                    google-chrome visual-studio-code-bin \
-                    --noconfirm
+    echo "cd && yay -S google-chrome visual-studio-code-bin --skipreview --noconfirm --removemake" | $CHROOT su "$USR"
     
 }
 
