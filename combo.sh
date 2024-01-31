@@ -244,8 +244,8 @@ function create_user_and_password() {
 	echo "$USR:$PASSWD" | $CHROOT chpasswd
 	sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/; /^root ALL=(ALL:ALL) ALL/a '"${USR}"' ALL=(ALL:ALL) ALL' /mnt/etc/sudoers
 	echo "Defaults insults" >> /mnt/etc/sudoers
-	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${CBL}" "${CNC}" "${CRE}" "${PASSWDR}" "${CNC}" "${CYE}" "${USR}" "${CNC}" "${CRE}" "${PASSWD}" "${CNC}"
-	okie
+	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${BOLD}" "${WHITE}" "${RED}" "${PASSWDR}" "${WHITE}" "${YELLOW}" "${USR}" "${WHITE}" "${RED}" "${PASSWD}" "${WHITE}"
+	ok
 	sleep 3
 	clear
 }
@@ -273,7 +273,7 @@ Section "InputClass"
 		Option	"XkbLayout"	"es"
 EndSection
 EOL
-	printf "%s00-keyboard.conf%s generated in --> /etc/X11/xorg.conf.d\n" "${CGR}" "${CNC}"
+	printf "%s00-keyboard.conf%s generated in --> /etc/X11/xorg.conf.d\n" "${GREEN}" "${WHITE}"
 }
 
 
