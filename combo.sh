@@ -304,7 +304,7 @@ function install_apps(){
 function activar_servicios() {
     logo "Activando Servicios"
 
-	$CHROOT systemctl enable lightdm.service
+	$CHROOT systemctl enable lightdm.service systemd-networkd
 }
 
 function install_yay (){
@@ -315,7 +315,7 @@ function install_yay (){
 function install_aur_app(){
     logo "Instalado apps aur"
 
-    echo "cd && yay -S google-chrome visual-studio-code-bin --skipreview --noconfirm --removemake" | $CHROOT su "$USR"
+    echo "cd && yay -S google-chrome visual-studio-code-bin --noconfirm --removemake" | $CHROOT su "$USR"
     
 }
 
