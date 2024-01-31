@@ -203,21 +203,6 @@ function fstab(){
 
 }
 
-#-------- Grub
-function install_grub() {
-	logo "Instalando GRUB"
-
-	$CHROOT pacman -S grub efibootmgr os-prober ntfs-3g --noconfirm >/dev/null
-	$CHROOT grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
-	
-	sed -i 's/quiet/zswap.enabled=0 mitigations=off nowatchdog/; s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /mnt/etc/default/grub
-	sed -i "s/MODULES=()/MODULES=(intel_agp i915 zram)/" /mnt/etc/mkinitcpio.conf
-	echo
-	$CHROOT grub-mkconfig -o /boot/grub/grub.cfg
-	ok
-	clear  
-}
-
 #--------- Idioma
 
 function set_timezone_lang_keyboard() {
@@ -255,15 +240,43 @@ function create_user_and_password() {
 	logo "Usuario Y Passwords"
 
 	echo "root:$PASSWDR" | $CHROOT chpasswd
-	echo "$USR:$PASSWD" | $CHROOT chpasswd
 	$CHROOT useradd -m -g users -G wheel -s /usr/bin/zsh "${USR}"
+	echo "$USR:$PASSWD" | $CHROOT chpasswd
 	sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/; /^root ALL=(ALL:ALL) ALL/a '"${USR}"' ALL=(ALL:ALL) ALL' /mnt/etc/sudoers
 	echo "Defaults insults" >> /mnt/etc/sudoers
-	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${BLUE}" "${WHITE}" "${RED}" "${PASSWDR}" "${WHITE}" "${YELLOW}" "${USR}" "${WHITE}" "${RED}" "${PASSWD}" "${WHITE}"
-	ok
+	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${CBL}" "${CNC}" "${CRE}" "${PASSWDR}" "${CNC}" "${CYE}" "${USR}" "${CNC}" "${CRE}" "${PASSWD}" "${CNC}"
+	okie
 	sleep 3
 	clear
 }
+
+#-------- Grub
+function install_grub() {
+	logo "Instalando GRUB"
+
+	$CHROOT pacman -S grub efibootmgr os-prober ntfs-3g --noconfirm >/dev/null
+	$CHROOT grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
+	
+	sed -i 's/quiet/zswap.enabled=0 mitigations=off nowatchdog/; s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /mnt/etc/default/grub
+	sed -i "s/MODULES=()/MODULES=(intel_agp i915 zram)/" /mnt/etc/mkinitcpio.conf
+	echo
+	$CHROOT grub-mkconfig -o /boot/grub/grub.cfg
+	ok
+	clear  
+}
+
+function conf_keyboard() {
+	cat >> /mnt/etc/X11/xorg.conf.d/00-keyboard.conf <<EOL
+Section "InputClass"
+		Identifier	"system-keyboard"
+		MatchIsKeyboard	"on"
+		Option	"XkbLayout"	"es"
+EndSection
+EOL
+	printf "%s00-keyboard.conf%s generated in --> /etc/X11/xorg.conf.d\n" "${CGR}" "${CNC}"
+}
+
+
 
 function install_yay (){
 
@@ -273,10 +286,11 @@ function install_yay (){
 #---------- Ejecutar funciones ----------
 get_necessary_info
 particion
-evitar_error_pgpkey
 base
 fstab
-install_grub
 set_timezone_lang_keyboard
 set_hostname_hosts
 create_user_and_password
+install_grub
+conf_keyboard
+install_yay
