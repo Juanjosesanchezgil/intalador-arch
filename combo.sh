@@ -312,7 +312,7 @@ function install_wm(){
 function install_apps(){
     logo "Instalando aplicaciones"
     $CHROOT pacman -S \
-                      alacritty \
+                      alacritty zsh-autosuggestions\
                       --noconfirm
 }
 
