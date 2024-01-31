@@ -309,5 +309,6 @@ create_user_and_password
 install_grub
 conf_keyboard
 install_lightdm
+install_wm
 activar_servicios
 install_yay
