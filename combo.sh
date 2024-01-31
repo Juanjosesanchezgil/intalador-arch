@@ -294,6 +294,13 @@ function install_wm(){
     $CHROOT pacman -S i3-wm --noconfirm
 }
 
+function install_apps(){
+    logo "Instalando aplicaciones"
+    $CHROOT pacman -S \
+                      alacritty \
+                      --noconfirm
+}
+
 function activar_servicios() {
     logo "Activando Servicios"
 
@@ -304,6 +311,16 @@ function install_yay (){
 
     echo "cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd" | $CHROOT su "$USR"
 }
+
+function install_aur_app(){
+    logo "Instalado apps aur"
+
+    $CHROOT yay -S \
+                    google-chrome visual-studio-code-bin \
+                    --noconfirm
+    
+}
+
 
 #---------- Ejecutar funciones ----------
 get_necessary_info
@@ -318,5 +335,7 @@ conf_keyboard
 install_lightdm
 install_video
 install_wm
+install_apps
 activar_servicios
 install_yay
+install_aur_app
