@@ -276,6 +276,21 @@ EOL
 	printf "%s00-keyboard.conf%s generated in --> /etc/X11/xorg.conf.d\n" "${GREEN}" "${WHITE}"
 }
 
+function conf_network() {
+	cat >> /mnt/etc/systemd/network/wired.network <<-EOL
+	[Match]
+	Name=enp1s0
+
+	[Network]
+	DHCP=yes
+	EOL
+	printf "%swired.network%s added to --> /etc/systemd/network\n" "${GREEN}" "${WHITE}"
+	
+	sed -i /mnt/etc/systemd/resolved.conf \
+		-e 's/#DNSOverTLS=no/DNSOverTLS=opportunistic/' \
+		-e 's/#DNS=.*/DNS=1.1.1.1 1.0.0.1/'
+}
+
 function install_lightdm() {
     logo "Instalando LightDM"
     $CHROOT pacman -S \
@@ -330,6 +345,7 @@ set_hostname_hosts
 create_user_and_password
 install_grub
 conf_keyboard
+conf_network
 install_lightdm
 install_video
 install_wm
