@@ -279,7 +279,7 @@ EOL
 function install_lightdm() {
     logo "Instalando LightDM"
     $CHROOT pacman -S \
-                        lightdm lightdm-gtk-greeter lightdm-gtk-greeter-seetings --noconfirm
+                        lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm
 }
 
 function activar_servicios() {
