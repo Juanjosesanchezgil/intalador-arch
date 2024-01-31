@@ -282,6 +282,13 @@ function install_lightdm() {
                         lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm
 }
 
+function install_video(){
+    logo "Instalando graficos"
+    $CHROOT pacman -S \
+                        xorg-server \
+                        --noconfirm
+}
+
 function install_wm(){
     logo "Intalando WM"
     $CHROOT pacman -S i3-wm --noconfirm
@@ -309,6 +316,7 @@ create_user_and_password
 install_grub
 conf_keyboard
 install_lightdm
+install_video
 install_wm
 activar_servicios
 install_yay
