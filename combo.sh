@@ -188,8 +188,9 @@ function base(){
     sed -i 's/#Color/Color/; s/#ParallelDownloads = 5/ParallelDownloads = 5/; /^ParallelDownloads =/a ILoveCandy' /etc/pacman.conf
     pacstrap /mnt \
             base base-devel \
-            linux linux-firmware \
-            git zsh
+            linux-zen linux-firmware \
+            intel-ucode mkinitcpio \
+            reflector git zsh
 
     ok
     clear
