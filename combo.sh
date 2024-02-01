@@ -251,6 +251,13 @@ function create_user_and_password() {
 	clear
 }
 
+function opts_pacman() {
+	logo "Aplicando optmizaciones.."
+	titleopts "Editando pacman. Se activan descargas paralelas, el color y el easter egg ILoveCandy"
+	sed -i 's/#Color/Color/; s/#ParallelDownloads = 5/ParallelDownloads = 5/; /^ParallelDownloads =/a ILoveCandy' /mnt/etc/pacman.conf
+	ok
+}
+
 #-------- Grub
 function install_grub() {
 	logo "Instalando GRUB"
@@ -344,6 +351,7 @@ fstab
 set_timezone_lang_keyboard
 set_hostname_hosts
 create_user_and_password
+opts_pacman
 install_grub
 conf_keyboard
 conf_network

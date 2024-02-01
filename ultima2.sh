@@ -120,49 +120,6 @@ function print_info() {
 	clear
 }
 
-#---------- Pacstrap base system ----------
-function base_install() {
-	logo "Instalando sistema base"
-
-	sed -i 's/#Color/Color/; s/#ParallelDownloads = 5/ParallelDownloads = 5/; /^ParallelDownloads =/a ILoveCandy' /etc/pacman.conf
-	pacstrap /mnt \
-			base base-devel \
-			linux-zen linux-firmware \
-			intel-ucode mkinitcpio \
-			reflector zsh git
-	okie
-	clear
-}
-
-
-#---------- Hostname & Hosts ----------
-function set_hostname_hosts() {
-	logo "Configurando Internet"
-
-	echo "${HNAME}" >> /mnt/etc/hostname
-	cat >> /mnt/etc/hosts <<- EOL		
-		127.0.0.1   localhost
-		::1         localhost
-		127.0.1.1   ${HNAME}.localdomain ${HNAME}
-	EOL
-	okie
-	clear
-}
-
-#---------- Users & Passwords ----------
-function create_user_and_password() {
-	logo "Usuario Y Passwords"
-
-	echo "root:$PASSWDR" | $CHROOT chpasswd
-	$CHROOT useradd -m -g users -G wheel -s /usr/bin/zsh "${USR}"
-	echo "$USR:$PASSWD" | $CHROOT chpasswd
-	sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/; /^root ALL=(ALL:ALL) ALL/a '"${USR}"' ALL=(ALL:ALL) ALL' /mnt/etc/sudoers
-	echo "Defaults insults" >> /mnt/etc/sudoers
-	printf " %sroot%s : %s%s%s\n %s%s%s : %s%s%s\n" "${CBL}" "${CNC}" "${CRE}" "${PASSWDR}" "${CNC}" "${CYE}" "${USR}" "${CNC}" "${CRE}" "${PASSWD}" "${CNC}"
-	okie
-	sleep 3
-	clear
-}
 
 #---------- Refreshing Mirrors ----------
 function refresh_mirrors() {
@@ -172,21 +129,6 @@ function refresh_mirrors() {
 	$CHROOT pacman -Syy
 	okie
 	clear
-}
-
-#---------- Install GRUB ----------
-function install_grub() {
-	logo "Instalando GRUB"
-
-	$CHROOT pacman -S grub os-prober ntfs-3g --noconfirm >/dev/null
-	$CHROOT grub-install --target=i386-pc "$drive"
-	
-	sed -i 's/quiet/zswap.enabled=0 mitigations=off nowatchdog/; s/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/' /mnt/etc/default/grub
-	sed -i "s/MODULES=()/MODULES=(intel_agp i915 zram)/" /mnt/etc/mkinitcpio.conf
-	echo
-	$CHROOT grub-mkconfig -o /boot/grub/grub.cfg
-	okie
-	clear  
 }
 
 #---------- Optimizations ----------
