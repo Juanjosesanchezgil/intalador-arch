@@ -324,6 +324,12 @@ function install_apps(){
                       --noconfirm
 }
 
+function dotfiles(){
+    logo "Restaurando dotfiles"
+
+    
+}
+
 function activar_servicios() {
     logo "Activando Servicios"
 
