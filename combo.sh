@@ -287,7 +287,7 @@ EOL
 function conf_network() {
 	cat >> /mnt/etc/systemd/network/wired.network <<-EOL
 	[Match]
-	Name=enp1s0
+	Name=enp0s3
 
 	[Network]
 	DHCP=yes
