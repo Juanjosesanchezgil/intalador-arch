@@ -326,7 +326,7 @@ function install_apps(){
 
 function dotfiles(){
     logo "Dotfiles"
-    echo "cd && git clone https://github.com/juanjosesanchezgil/arch.git" | $CHROOT su "$USR"
+    $CHROOT cd /home/"$USR"/ && git clone https://github.com/juanjosesanchezgil/arch.git
     $CHROOT mv /home/"$USR"/arch/.config /home/"$USR"/
 
     
