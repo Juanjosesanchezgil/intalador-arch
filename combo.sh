@@ -320,7 +320,7 @@ function install_wm(){
 function install_apps(){
     logo "Instalando aplicaciones"
     $CHROOT pacman -S \
-                      alacritty zsh-autosuggestions\
+                      alacritty networkmanager\
                       --noconfirm
 }
 
@@ -333,7 +333,7 @@ function dotfiles(){
 function activar_servicios() {
     logo "Activando Servicios"
 
-	$CHROOT systemctl enable lightdm.service systemd-networkd
+	$CHROOT systemctl enable lightdm.service NetworkManager.service
 }
 
 function install_yay (){
