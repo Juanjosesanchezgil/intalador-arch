@@ -190,7 +190,7 @@ function base(){
             base base-devel \
             linux-zen linux-firmware \
             intel-ucode mkinitcpio \
-            reflector git zsh
+            reflector git fish
 
     ok
     clear
@@ -241,7 +241,7 @@ function create_user_and_password() {
 	logo "Usuario Y Passwords"
 
 	echo "root:$PASSWDR" | $CHROOT chpasswd
-	$CHROOT useradd -m -g users -G wheel -s /usr/bin/zsh "${USR}"
+	$CHROOT useradd -m -g users -G wheel -s /usr/bin/fish "${USR}"
 	echo "$USR:$PASSWD" | $CHROOT chpasswd
 	sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/; /^root ALL=(ALL:ALL) ALL/a '"${USR}"' ALL=(ALL:ALL) ALL' /mnt/etc/sudoers
 	echo "Defaults insults" >> /mnt/etc/sudoers
