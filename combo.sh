@@ -190,7 +190,7 @@ function base(){
             base base-devel \
             linux-zen linux-firmware \
             intel-ucode mkinitcpio \
-            reflector git fish
+            git fish
 
     ok
     clear
@@ -269,6 +269,8 @@ function install_grub() {
 	sed -i "s/MODULES=()/MODULES=(intel_agp i915 zram)/" /mnt/etc/mkinitcpio.conf
 	echo
 	$CHROOT grub-mkconfig -o /boot/grub/grub.cfg
+    $CHROOT os-prober
+	$CHROOT grub-mkconfig -o /boot/grub/grub.cfg
 	ok
 	clear  
 }
@@ -320,7 +322,8 @@ function install_wm(){
 function install_apps(){
     logo "Instalando aplicaciones"
     $CHROOT pacman -S \
-                      alacritty networkmanager\
+                      alacritty networkmanager \
+                      docker docker-compose \
                       --noconfirm
 }
 
@@ -335,7 +338,7 @@ function dotfiles(){
 function activar_servicios() {
     logo "Activando Servicios"
 
-	$CHROOT systemctl enable lightdm.service NetworkManager.service
+	$CHROOT systemctl enable lightdm.service NetworkManager.service docker.service
 }
 
 function install_yay (){
@@ -353,7 +356,7 @@ function install_aur_app(){
 
 #---------- Ejecutar funciones ----------
 get_necessary_info
-particion
+#particion
 base
 fstab
 set_timezone_lang_keyboard
@@ -362,11 +365,12 @@ create_user_and_password
 opts_pacman
 install_grub
 conf_keyboard
-conf_network
+#conf_network
 install_lightdm
 install_video
 install_wm
 install_apps
+#dotfiles
 activar_servicios
 install_yay
 install_aur_app
