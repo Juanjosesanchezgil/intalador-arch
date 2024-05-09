@@ -353,6 +353,10 @@ function install_aur_app(){
     
 }
 
+function restaurando_permisos(){
+
+}
+
 
 #---------- Ejecutar funciones ----------
 get_necessary_info
@@ -374,3 +378,4 @@ install_apps
 activar_servicios
 install_yay
 install_aur_app
+#restaurando_permisos
